@@ -10,20 +10,16 @@ function dialSend(data){
         dialContent: data
     }
     console.log(JSON.stringify(data));
-    ajaxPost("http://localhost/dialog", data, display(), true);
-
+    ajaxPost("http://localhost:5000/dialog", data, function (text) {
+      paragraphe = createEltDisplay(text);
+      dialogDisplay.appendChild(paragraphe);
+    }, true);
 }
 
 function createEltDisplay (text) {
     var inputElt = document.createElement("p");
     inputElt.textContent = text;
     return inputElt;
-}
-
-function display() {
-    //takes the response and appends it in the dialogDisplay
-    paragraphe = createEltDisplay("It's britney bitch");
-    dialogDisplay.appendChild(paragraphe);
 }
 
 

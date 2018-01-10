@@ -6,9 +6,9 @@ function ajaxPost(url, data, callback, isJson) {
     req.open("POST", url);
     req.addEventListener("load", function () {
         if (req.status >= 200 && req.status < 400) {
-            // Appelle la fonction callback en lui passant la réponse de la requête
-            callback(req.responseText);
-        } else {
+            callback(req.responseText)
+        } 
+        else {
             console.error(req.status + " " + req.statusText + " " + url);
         }
     });

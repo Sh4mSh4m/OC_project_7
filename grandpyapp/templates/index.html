@@ -36,6 +36,21 @@
         resize: none;
         overflow: hidden;
       }
+      #dialogDisplay {
+        display: flex;
+        height: 300px;
+        padding:5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        overflow: auto;
+        background-color: white;
+      }
+      #dialogDisplay ul {
+        display: flex;
+        min-height: min-content;
+        flex-direction: column-reverse;
+      }
     </style>
 </head>
 
@@ -51,15 +66,22 @@
       </nav>
       <section id = "chat" class="col-xs-12 col-md-10">
         <div id ="dialogBox">
-          <div class="form-group">
-              <textarea class="form-control" readonly rows ="15"></textarea>  
+          <div id ="dialogDisplay">
+              <ul id = "log">
+              </ul>
           </div>
+          <!--<div class="form-group">
+              <textarea id="dialogDisplay" class="form-control" rows="10">hello <p>heha</p></textarea>
+          </div>-->
           <form>
             <div class="form-group">
-              <textarea class="form-control" rows="4"></textarea>
+              <textarea type="text" id ="dialogInput" class="form-control" rows="2" autofocus="true" placeholder="Press enter to send the request"></textarea>
             </div>
+            <input type="reset" name="reset" value="Reset" id="reset">
+            <input type="submit" name="submit" value="Send" id="submit">
           </form>
-        </div>
+
+        </div>  
       </section>
     </div>
     <footer class="row text-center">
@@ -69,6 +91,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Javascript de Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="../static/js/ajax.js"></script>
+    <script src="../static/js/req.js"></script>
 </body>
 
 </html>

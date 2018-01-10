@@ -21,16 +21,16 @@ class GrandPyTestCase(unittest.TestCase):
 #        rv = self.app.get('/')
 #        assert b"Welcome to Rick'n'Morty's multiverse locator" in rv.data
 
-    def test_webpage_loads(self):
+    def text_webpage_loads(self):
         """
         Client opens up a firefox, types in the URL and checks that
         this is the right website
         """
         driver = self.driver
         self.driver.get('http://localhost:5000')
-        test = driver.find_element_by_id("caca")
+        test = driver.find_element_by_id("global")
 #        test = driver.find_element_by_xpath("//p[@id='caca']")
-        self.assertIn("pipicaca", test.text)
+        self.assertIn("Welcome", test.text)
 #        self.assertIn("Rick'n'Morty's multiverse locator", driver.title)
 
     def test_webpage_input(self):
@@ -39,12 +39,21 @@ class GrandPyTestCase(unittest.TestCase):
         text appears in the display area
         """
         driver = self.driver
-        chat_input = driver.find_element_by_xpath("//input[1]")
+        self.driver.get('http://localhost:5000')
+        chat_input = driver.find_element_by_xpath("//textarea[@id='dialogInput']")
         chat_input.clear()
         chat_input.send_keys('some text')
-        chat_area = driver.find_element_by_id("chat_area")
-        self.assertIn("some text", chat_area.text)
+        chat_input.send_keys(Keys.RETURN)
+        chat_area = driver.find_element_by_id("log")
+        self.assertIn("britney", chat_area.text)
 
+    def test_POST_treatment(self):
+        """
+        Flask engine receives JSON and treats it as JSON
+        """
+
+
+# Data input control, maek sure we only have text input
 
     def tearDown(self):
         self.driver.quit()
