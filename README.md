@@ -7,13 +7,13 @@ the bot will return a google maps mini map and also retrieve a short story regar
 Interaction with the bot will be through a web site in a chat-like area.
 
 ## Features
-- [ ] AJAX requests : user sends the request pressing enter on the page and the answers are displayed on the same screen without reloading the page.
-- [ ] Google maps and Media Wiki APIs are to be used.
-- [ ] Nothing is saved, log history is lost upon reloading the page.
+- [x] AJAX requests : user sends the request pressing enter on the page and the answers are displayed on the same screen without reloading the page.
+- [x] Google maps and Media Wiki APIs are to be used.
+- [x] Nothing is saved, log history is lost upon reloading the page.
 
 ## Requirements
-- [ ] web interface is responsive for mobile users.
-- [ ] code is to be produced following a test driven approach.
-- [ ] code and documentation is to be written in english.
-- [ ] requests are AJAX based
-- [ ] APIs testing must be based on mocks usage.
+- [x] web interface is responsive for mobile users.
+- [x] code is to be produced following a test driven approach.
+- [x] code and documentation is to be written in english.
+- [x] requests are AJAX based
+- [x] APIs testing must be based on mocks usage.

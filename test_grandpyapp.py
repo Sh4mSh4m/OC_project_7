@@ -81,7 +81,8 @@ class ParserTestCase(unittest.TestCase):
         result = ps.msgProcessor(parsedBatch)
         expectedMsgResponse = {'interaction': "Salut mec. S'toi le tocard. ",
                        'complement': "",
-                       'response': "paris "}
+                       'keyWord': "paris ",
+                       'response': ""}
         self.assertEqual(result, expectedMsgResponse)
 
     def test_questionsProc(self):
@@ -90,10 +91,11 @@ class ParserTestCase(unittest.TestCase):
         lstquestions = ['où est paris', 'tu connais paris ', '']
         msgResponse = {'interaction': "",
                        'complement': "",
+                       'keyWord': "",
                        'response': ""}
         result = ps.questionsProc(lstquestions, msgResponse)
         expectedResponse = "paris paris "
-        self.assertEqual(result['response'], expectedResponse)
+        self.assertEqual(result['keyWord'], expectedResponse)
 
     def test_sentencesProc(self):
         # eliminates stop words and empty strings
