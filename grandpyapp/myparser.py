@@ -61,16 +61,16 @@ def questionsProc(lstQuestions, msgResponse):
     for wordArray in wordArrays:
         for locationAnchor in parserDictionnary['locationAnchor']:
             if locationAnchor in wordArray:
-                msgResponse['response'] += "Ha tu cherches "
                 index = wordArray.index(locationAnchor)
                 for i in range(index+1, len(wordArray)):
-                    msgResponse['response'] += wordArray[i] + " "
-        for questionAnchor in parserDictionnary['questionAnchor']:
-            if questionAnchor in wordArray:
-                index  = wordArray.index(questionAnchor)
-                msgResponse['complement'] += "Sinon check "
-                for i in range(index, len(wordArray)+1):
-                    msgResponse['complement'] += wordArray[i] + " "
+                    msgResponse['keyWord'] += wordArray[i] + " "
+#        LATER UPGRADE
+#        for questionAnchor in parserDictionnary['questionAnchor']:
+#            if questionAnchor in wordArray:
+#                index = wordArray.index(questionAnchor)
+#                msgResponse['complement'] += "Sinon check "
+#                for i in range(index, len(wordArray)+1):
+#                    msgResponse['complement'] += wordArray[i] + " "
     return msgResponse
 
 
@@ -110,9 +110,10 @@ def msgProcessor(parsedBatch):
     Input: dictionnary of sentences and questions which are lists
     Returns a JSON object
     """
-    msgResponse = {'interaction':"",
-                   'complement':"",
-                   'response':""}
+    msgResponse = {'interaction': "",
+                   'complement': "",
+                   'keyWord': "",
+                   'response': ""}
     msgResponse = sentencesProc(parsedBatch['sentences'], msgResponse)
     msgResponse = questionsProc(parsedBatch['questions'], msgResponse)
     return msgResponse

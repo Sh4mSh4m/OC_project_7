@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import json
 import grandpyapp.myparser as ps
+import grandpyapp.myrequestapi as rq
 
 app = Flask(__name__)
 
@@ -16,8 +17,17 @@ def index():
 def postJsonHandler():
     msgJson = request.get_json()
     msg = msgJson['dialogContent']
-    response = ps.msgProcessor(ps.msgParser(msg))
-    responseJson = json.dumps(response)
+    msgResponse = ps.msgProcessor(ps.msgParser(msg))
+    tmpKeyWord = msgResponse['keyWord']
+    msgResponse['keyWord'] = "%20".join(tmpKeyWord.split())
+    if msgResponse['keyWord'] != '':
+        msgResponse['response'] = rq.getJsonApiWiki(msgResponse['keyWord'])
+        if msgResponse['response'] != '':
+            msgResponse['complement'] = "D'ailleurs, savais-tu que "
+            msgResponse['complement'] += msgResponse['response']
+        else:
+            msgResponse['complement'] = "Désolé je n'ai rien trouvé"
+    responseJson = json.dumps(msgResponse)
     return responseJson
 
 #@app.route('/confirm', methods = ['POST'])

@@ -15,7 +15,10 @@ def getJsonApiWiki(keyWord):
     relatedTopics = jsonData[1]
     summaries = jsonData[2]
     relatedlinks = jsonData[3]
-    return summaries[0]
+    if not len(summaries) == 0:
+        return summaries[0]
+    else:
+        return ''
 
 def urlBuilder(keyWord):
     """
@@ -29,7 +32,7 @@ def urlBuilder(keyWord):
     return urlApiWikiCall
 
 def main():
-    getJsonApiWiki("New York")
+    getJsonApiWiki("la rue des sorrieres")
 
 if __name__ == "__main__":
     main()

@@ -81,7 +81,7 @@ class ParserTestCase(unittest.TestCase):
         result = ps.msgProcessor(parsedBatch)
         expectedMsgResponse = {'interaction': "Salut mec. S'toi le tocard. ",
                        'complement': "",
-                       'response': "Ha tu cherches paris "}
+                       'response': "paris "}
         self.assertEqual(result, expectedMsgResponse)
 
     def test_questionsProc(self):
@@ -92,7 +92,7 @@ class ParserTestCase(unittest.TestCase):
                        'complement': "",
                        'response': ""}
         result = ps.questionsProc(lstquestions, msgResponse)
-        expectedResponse = "Ha tu cherches paris Ha tu cherches paris "
+        expectedResponse = "paris paris "
         self.assertEqual(result['response'], expectedResponse)
 
     def test_sentencesProc(self):

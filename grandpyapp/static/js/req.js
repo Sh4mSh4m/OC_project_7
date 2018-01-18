@@ -4,6 +4,7 @@
 var form = document.querySelector("form");
 var dialogInput = document.getElementById("dialogInput");
 var dialogDisplay = document.getElementById("dialogDisplay");
+var nav = document.querySelector("nav");
 
 ////////////////////////////////////////////////////////////////
 // Post function sending user input and recovering server     //
@@ -15,37 +16,43 @@ function dialogSend(data){
     }
     ajaxPost("http://localhost:5000/dialog", data, function (text) {
       var listData= JSON.parse(text)
-
-//      if (text === "tg") {
-//        botMsg = displayLogMessage("bot", "toi ftg vp");
-//        dialogDisplay.insertAdjacentElement("afterbegin", botMsg);
-//      }
-//      if (true) {
-//        botMsg = displayLogMessage("bot", "je dis ce que je veux"+text);
-//        dialogDisplay.insertAdjacentElement("afterbegin", botMsg);
-//      }
       msg = listData.interaction
-      msg += listData.response
-      msg += listData.complement
-      console.log(msg)
-      botMsg = displayLogMessage("bot", msg);
+      response = listData.response
+      console.log(response)
+      keyWord = listData.keyWord
+      complement = listData.complement
+      botMsg = displayLogMessage("bot", msg, response, complement);
       dialogDisplay.insertAdjacentElement("afterbegin", botMsg);
-      //              var listeData = JSON.parse(text);
-//        listeData.forEach( function(data) {
-//            var lienElt = creerElementLien(data);
-//            contenuElt.appendChild(lienElt);
-// if JSON.error not empty
-// if JSON.reponse not empty
-// if JSON.nose not empty
-// if JSON.confirm not empty
-//     replace inputarea
-// if JSON.resultat not empty
+      imgRickBaseElt = createImgRickBase()
+      setTimeout(function () {
+          var imgRickThinkingElt = document.getElementById('rick')
+          nav.replaceChild(imgRickBaseElt, imgRickThinkingElt)
+          dialogDisplay.removeChild(botThinkingMsg)
+        }, 500)
     }, true);
 };
 
 ////////////////////////////////////////////////////////////////
 // Functions that creates HTML elements to display in the log //
 ////////////////////////////////////////////////////////////////
+function createImgRickBase () {
+    var imgRickBaseElt = document.createElement("img")
+    imgRickBaseElt.setAttribute("id", "rick");
+    imgRickBaseElt.setAttribute("class", "img-circle img-responsive");
+    imgRickBaseElt.setAttribute("src", "../static/img/rick_base.jpeg");
+    imgRickBaseElt.setAttribute("alt", "rick_base");
+    return imgRickBaseElt
+}
+
+function createImgRickThinking () {
+    var imgRickThinkingElt = document.createElement("img")
+    imgRickThinkingElt.setAttribute("id", "rick");
+    imgRickThinkingElt.setAttribute("class", "img-circle img-responsive");
+    imgRickThinkingElt.setAttribute("src", "../static/img/rick_thinking.jpeg");
+    imgRickThinkingElt.setAttribute("alt", "rick_thinking");
+    return imgRickThinkingElt
+}
+
 function createTimeStampElt () {
     var date = new Date ()
     var hour = date.getHours()
@@ -63,6 +70,25 @@ function createParagraphElt (text) {
     return paragrapheElt
 };
 
+function createMapsElt (response) {
+    var mapsElt = document.createElement("iframe")
+    mapsElt.setAttribute("class", "maps");
+    srcBase = "https://www.google.com/maps/embed/v1/"
+    srcSearch = "place?q=" + keyWord
+    srcKey = "&key=AIzaSyAXHQGvaSlCZfPPratuxXQP-pZZqYPnI8w"
+    src = srcBase + srcSearch + srcKey
+    mapsElt.setAttribute('src', src)
+    mapsElt.setAttribute('allowFullScreen', '')
+    return mapsElt
+}
+
+function createComplementElt (complement) {
+    var complementElt = document.createElement("span");
+    complementElt.setAttribute("class", "response");
+    complementElt.textContent = complement;
+    return complementElt
+}
+
 function createAvatarElt (source) {
     var avatarElt = document.createElement("div");
     avatarElt.setAttribute("class", "avatar");
@@ -76,10 +102,24 @@ function createDivElt (source) {
     return divElt
 };
 
-function displayLogMessage (source, text) {
+function displayLogMessage (source, text, response, complement) {
     var msgElt = createDivElt(source);
     var msgAvatarElt = createAvatarElt(source)
-    var msgInputElt = createParagraphElt(text)
+    if (response !== '') {
+        var msgInputElt = createParagraphElt(text + "Ooouu Eeee j'ai trouvé ! ")
+        msgInputElt.appendChild(createMapsElt(response))
+        msgInputElt.appendChild(createComplementElt(complement))
+    }
+    else if (source === 'bot' && text === '' && response === '' && complement === '') {
+        var msgInputElt = createParagraphElt("Désolé je n'ai pas tout compris ! ")
+    }
+    else if (source === 'bot' && response === '') {
+        console.log("perdu")
+        var msgInputElt = createParagraphElt(text + complement)
+    }
+    else {
+        var msgInputElt = createParagraphElt(text)
+    }
     var msgInputTimeElt = createTimeStampElt()
     msgElt.appendChild(msgAvatarElt);
     msgElt.appendChild(msgInputElt);
@@ -98,8 +138,13 @@ function checkInput (data) {
 
 function sendUsrInput (data) {
     dialogInput.value = null;
-    userMsg = displayLogMessage("user", data);
-    dialogDisplay.insertAdjacentElement("afterbegin", userMsg);
+    userMsg = displayLogMessage('user', data, '', '');
+    botThinkingMsg = displayLogMessage('botThinking', "MEEESEEKKK AND DESTROY", '', '');
+    dialogDisplay.insertAdjacentElement('afterbegin', userMsg);
+    dialogDisplay.insertAdjacentElement('afterbegin', botThinkingMsg);
+    imgRickThinkingElt = createImgRickThinking()
+    var imgRickBaseElt = document.getElementById('rick')
+    nav.replaceChild(imgRickThinkingElt, imgRickBaseElt);
     dialogSend(data);
 }
 
