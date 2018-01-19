@@ -14,7 +14,7 @@ function dialogSend(data){
     var data = {
         dialogContent : data
     }
-    ajaxPost("https://myrickbot.herokuapp.com/dialog", data, function (text) {
+    ajaxPost("http://myrickbot.herokuapp.com/dialog", data, function (text) {
       var listData= JSON.parse(text)
       msg = listData.interaction
       response = listData.response
