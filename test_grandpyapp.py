@@ -14,21 +14,17 @@ import grandpyapp.myrequestapi as rq
 
 
 class webClientTestCase(unittest.TestCase):
-
-    def setUp(self):
+    """
+    Test suite for the flask server, verifying it builds up the 
+    index.html page on get requests and that the input container 
+    is present
+    """
+    @classmethod
+    def setUp(cls):
         vw.app.testing = True
-        # self.app = views.app.test_client()
-        self.driver = webdriver.Firefox()
+        cls.driver = webdriver.Firefox()
 
-#    def test_webpage_content(self):
-#        """
-#        Test that the flask app launches and that the client can access
-#        it and view the content of the header
-#        """
-#        rv = self.app.get('/')
-#        assert b"Welcome to Rick'n'Morty's multiverse locator" in rv.data#
-
-    def teXt_webpage_loads(self):
+    def test_webpage_loads(self):
         """
         Client opens up a firefox, types in the URL and checks that
         this is the right website
@@ -40,7 +36,7 @@ class webClientTestCase(unittest.TestCase):
         self.assertIn("Welcome", test.text)
         # self.assertIn("Rick'n'Morty's multiverse locator", driver.title)#
 
-    def teXt_webpage_input(self):
+    def test_webpage_input(self):
         """
         Client opens up a firefox, locates the input field, enter text.
         text appears in the display area
@@ -54,13 +50,16 @@ class webClientTestCase(unittest.TestCase):
         chat_area = driver.find_element_by_id("dialogDisplay")
         self.assertIn("some text", chat_area.text)
 
-# Data input control, maek sure we only have text input#
-    def tearDown(self):
-        self.driver.quit()
+    @classmethod
+    def tearDown(cls):
+        cls.driver.quit()
 
 
 class ParserTestCase(unittest.TestCase):
-
+    """
+    Test suite focusing on the various functions contributing to parsing
+    user inputs and building up the server response to the POST request.
+    """
     def test_msgParser(self):
         """
         Flask engine receives JSON and treats it as JSON to identify sentences
@@ -73,6 +72,11 @@ class ParserTestCase(unittest.TestCase):
                         retour['sentences'][1] == " moi ca va")
 
     def test_msgProcessor(self):
+        """
+        Parsing script buidls up the JSON reponse depending on:
+        - assertions
+        - questions
+        """
         parsedBatch = {'sentences': ['salut mec',
                                      ' le tocard',
                                      '',
@@ -117,7 +121,9 @@ class ParserTestCase(unittest.TestCase):
 
 
 class apiRequester(unittest.TestCase):
-
+    """
+    Test suite on the API request script
+    """
     def test_apiWikiPedia(self):
         # mocks the requests.get call
         with patch('grandpyapp.myrequestapi.requests.get') as mocked_get:

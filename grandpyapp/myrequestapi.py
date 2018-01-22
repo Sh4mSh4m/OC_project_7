@@ -22,7 +22,7 @@ def getJsonApiWiki(keyWord):
 
 def urlBuilder(keyWord):
     """
-    input list of words
+    Input list of words
     return the url to request
     """
     keyWordsSearch = "%20".join(keyWord.split())

@@ -2,9 +2,10 @@
 import json
 import codecs
 
-#msg = "Salut. Je m'appelle Ben. pd. Qui es tu ? moi ca va"
-msg = "La phrase1 avec stuff. Une phrase2 du stuff. La blabla et la question1 ? Le blabla et sa question2 ? Une phrase3 and more."
-parserDictionnary = json.load(codecs.open("grandpyapp/parserDictionnary.json", "r", "utf-8-sig"))
+msg = """La phrase1 avec stuff. Une phrase2 du stuff. La blabla et 
+         la question1 ? Le blabla et sa question2 ? Une phrase3 and more."""
+parserDictionnary = json.load(codecs.open("grandpyapp/parserDictionnary.json",
+                                          "r", "utf-8-sig"))
 
 
 def stripStopWords(phrases):
@@ -17,7 +18,8 @@ def stripStopWords(phrases):
     for phrase in phrases:
         if len(phrase) is not 0:
             words = phrase.split()
-            result = ([word for word in words if word not in parserDictionnary['stopWords']])
+            result = ([word for word in words if word not in 
+                       parserDictionnary['stopWords']])
             if len(result) is not 0:
                 cleanWordArrays.append(result)
     return cleanWordArrays
@@ -42,10 +44,9 @@ def sentencesProc(lstSentences, msgResponse):
                 prenom = (wordArray[index + 1]).capitalize()
                 if prenom == "Hieu":
                     msgResponse['interaction'] += "Hey Bogoss. OKLM"
-                elif prenom == "Ben":
-                    msgResponse['interaction'] += "Bouge tocard"
                 else:
-                    msgResponse['interaction'] += "Enchanté "+ prenom + ". "
+                    msgResponse['interaction'] += "Enchanté "
+                                                   + prenom + ". "
     return msgResponse
 
 
@@ -124,12 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#sorting
-#    response = {'ERROR': '',
-#                'INTERACTION': '',
-#                'LMGTFY': '',
-#                'CONFIRM': '',
-#                'RESULTAT': ''}
-    #response = processSentences(response)
-    #response = processQuestions(response)
